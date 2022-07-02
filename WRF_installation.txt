@@ -21,22 +21,22 @@ export OMP_NUM_THREADS=2
 
 
 openmpi:
-CC=pgcc CXX=pgc++ FC=pgf90 CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-shared --with-cuda=$CUDA_HOME --prefix=${MPIDIR}
+CC=pgcc CXX=pgc++ FC=pgf90 CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-shared --with-cuda=${CUDA_HOME} --prefix=${MPIDIR}
 
 parallel netcdf:
 CPPFLAGS="-I${MPIDIR}/include" LDFLAGS="-L${MPIDIR}/lib" CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --prefix=${PNETCDF} --enable-shared
 
 zlib:
-CC=pgcc CFLAGS="-fPIC" ./configure --prefix=${ZLIB}
+CC=pgcc CFLAGS="-fPIC -m64" ./configure --prefix=${ZLIB}
 
 szip:
-CC=pgcc CFLAGS="-fPIC" ./configure --prefix=${SZLIB}
+CC=pgcc CFLAGS="-fPIC -m64" ./configure --prefix=${SZLIB}
 
 phdf5:
-CC=mpicc CPPFLAGS="-I${MPIDIR}/include" LDFLAGS="-L${MPIDIR}/lib" CFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-fortran --enable-parallel -enable-shared --with-szlib=${ZLIB} --prefix=${PHDF5}
+CC=mpicc CPPFLAGS="-I${MPIDIR}/include" LDFLAGS="-L${MPIDIR}/lib" CFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-fortran --enable-parallel -enable-shared --with-zlib=${ZLIB} --with-szlib=${SZLIB} --prefix=${PHDF5}
 
-netcdf:
-CC=mpicc CPPFLAGS="-I${PHDF5}/include -I${PNETCDF}/include  -I${ZLIB}/include -I${SZLIB}/include" LDFLAGS="-L${PHDF5}/lib -L${PNETCDF}/lib  -L${ZLIB}/lib -L${SZLIB}/lib" CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-pnetcdf --enable-shared --disable-dap --prefix=${NETCDF}
+netcdf-c:
+CC=mpicc CPPFLAGS="-I${PHDF5}/include -I${PNETCDF}/include -I${ZLIB}/include -I${SZLIB}/include" LDFLAGS="-L${PHDF5}/lib -L${PNETCDF}/lib -L${ZLIB}/lib -L${SZLIB}/lib" CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" ./configure --enable-pnetcdf --enable-shared --disable-dap --prefix=${NETCDF}
 
 netcdf-fortran:
 CC=mpicc FC=mpif90 CPPFLAGS=-I${NETCDF}/include LDFLAGS=-L${NETCDF}/lib ./configure CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" --prefix=${NETCDF}
