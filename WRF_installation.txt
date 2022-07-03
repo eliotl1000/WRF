@@ -3,6 +3,8 @@ sudo apt update
 sudo apt install m4 csh libjasper1 libjasper-dev
 
 
+content of .bashrc:
+
 export NETCDF=/home/wrf/WRF/lib/netcdf
 export PNETCDF=/home/wrf/WRF/lib/pnetcdf
 export PHDF5=/home/wrf/WRF/lib/phdf5
@@ -14,8 +16,8 @@ export CUDA_HOME=/usr/local/cuda
 export JASPERLIB=/usr/lib/x86_64-linux-gnu
 export JASPERINC=/usr/include/jasper
 export HPC_SDK=/opt/nvidia/hpc_sdk/Linux_x86_64/2021/compilers
-export PATH=$HPC_SDK/bin:$NETCDF/bin:$PNETCDF/bin:$MPIDIR/bin:$PNETCDF/bin:$PHDF5/bin:$CUDA_HOME/bin:$NCARG_ROOT/bin:$PATH
-export LD_LIBRARY_PATH=$HPC_SDK/lib:$NETCDF/lib:$PNETCDF/lib:$MPIDIR/lib:$PNETCDF/lib:$PHDF5/lib:$NCARG_ROOT/lib:$CUDA_HOME/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+export PATH=$HPC_SDK/bin:$NETCDF/bin:$PNETCDF/bin:$MPIDIR/bin:$PHDF5/bin:$CUDA_HOME/bin:$NCARG_ROOT/bin:$PATH
+export LD_LIBRARY_PATH=$HPC_SDK/lib:$NETCDF/lib:$PNETCDF/lib:$MPIDIR/lib:$PHDF5/lib:$NCARG_ROOT/lib:$CUDA_HOME/lib64:/usr/local/lib:$LD_LIBRARY_PATH
 export WRFIO_NCD_LARGE_FILE_SUPPORT=1
 export OMP_NUM_THREADS=2
 
@@ -40,3 +42,4 @@ CC=mpicc CPPFLAGS="-I${PHDF5}/include -I${PNETCDF}/include -I${ZLIB}/include -I$
 
 netcdf-fortran:
 CC=mpicc FC=mpif90 CPPFLAGS=-I${NETCDF}/include LDFLAGS=-L${NETCDF}/lib ./configure CFLAGS="-fPIC -m64 -tp=px" CXXFLAGS="-fPIC -m64 -tp=px" FCFLAGS="-fPIC -m64 -tp=px" --prefix=${NETCDF}
+
